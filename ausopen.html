@@ -149,12 +149,7 @@
         }
 
         function test(data_pa) {
-            console.log(data_pa)
-            // let user_data = d3.nest()
-            //                 .key(function (d) { return d.winner == data_pa.key })
-            //                 .key(function (d) { return d.year })
-            //                 .rollup(function (d) { return d.round })
-            //                 .entries(data);
+            // console.log(data_pa)
             
             let user_data = data.filter(function (d) {
                 if (d.winner == data_pa.key) {
@@ -171,7 +166,7 @@
                 return d2.key - d1.key
             });
 
-            console.log(user_data_2)
+            // console.log(user_data_2)
 
             d3.select("svg").html("");
             
@@ -191,21 +186,15 @@
             // append a 'group' element to 'svg'
             // moves the 'group' element to the top left margin
             var svg = d3.select("svg")//.append("svg")
-                .attr("width", width + margin.left + margin.right)
+                .attr("width", width + margin.left + margin.right + 100)
                 .attr("height", height + margin.top + margin.bottom)
             .append("g")
                 .attr("transform", 
                     "translate(" + margin.left + "," + margin.top + ")");
 
-            // // format the data
-            // data.forEach(function(d) {
-            //     d.sales = +d.sales;
-            // });
-
             // Scale the range of the data in the domains
             x.domain([0, d3.max(user_data_2, function(d){ return d.value; })])
             y.domain(user_data_2.map(function(d) { return d.key; }));
-            //y.domain([0, d3.max(data, function(d) { return d.sales; })]);
 
             // append the rectangles for the bar chart
             var bars = svg.selectAll(".bar")
@@ -218,26 +207,39 @@
                 .attr("y", function(d) { return y(d.key); })
                 .attr("height", y.bandwidth());
 
-            // bars.append("text")
-            //     .attr("class", "label")
-            //     //y position of the label is halfway down the bar
-            //     .attr("y", function (d) {
-            //         return y(d.key) + y.rangeBand() / 2 + 4;
-            //     })
-            //     //x position is 3 pixels to the right of the bar
-            //     .attr("x", function (d) {
-            //         return x(d.value) + 3;
-            //     })
-            //     .text(function (d) {
-            //         return d.value;
-            //     });
+            bars
+                .data(user_data_2)
+                .enter()
+                .append("text")
+
+            bars
+                // .data(user_data_2)
+                // .enter()
+                .append("text")        
+                .attr("y", function(d) {
+                    return y(d.key) + y.bandwidth() / 2;
+                })
+                .attr("x", 10)
+                .text(function(d) {
+                    // return d.value
+                    return d.value == 1 ? "First" :
+                        d.value == 2 ? "Second" :
+                        d.value == 3 ? "Third" :
+                        d.value == 4 ? "Fourth" :
+                        d.value == 5 ? "Quarter Final" :
+                        d.value == 6 ? "Runner up" : "Winner!"
+                        
+                })
+                .attr("x", function(d) {
+                    return x(d.value) + 10;
+                });
         
             
 
             // add the x Axis
-            svg.append("g")
-                .attr("transform", "translate(0," + height + ")")
-                .call(d3.axisBottom(x));
+            // svg.append("g")
+            //     .attr("transform", "translate(0," + height + ")")
+            //     .call(d3.axisBottom(x));
 
             // add the y Axis
             svg.append("g")
