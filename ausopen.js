@@ -60,6 +60,7 @@ function barChart() {
     svg.selectAll(".bar").on('click', function(d, i) {
         showPlayerPerformanceByYear(d)
         showPlayerAttributes(d)
+        compareplayers(d)
     });
 
 }
@@ -271,5 +272,79 @@ function showPlayerAttributes(player) {
         .text(function(d) {return d; });
 
     legend.transition().duration(500).delay(function(d,i){ return 1300 + 100 * i; }).style("opacity","1");
+}
 
+function compareplayers(player) {
+
+    var secondPlayer = {key: "Roger Federer", value: 5}
+    var players = [player.key, secondPlayer.key]
+
+    var d = [];
+    d.push(getPlayerAttributesForRadarCompare(player));
+    d.push(getPlayerAttributesForRadarCompare(secondPlayer));
+    console.log(d)
+    
+    var w = 500, h = 500;
+    var colorscale = d3.scaleOrdinal(d3.schemeCategory10);
+
+    //Options for the Radar chart, other than default
+    var mycfg = {
+        w: w,
+        h: h,
+        maxValue: 0.6,
+        levels: 6,
+        ExtraWidthX: 300
+    }
+    
+    //Call function to draw the Radar chart
+    //Will expect that data is in %'s
+    RadarChart.draw("#chart3", d, mycfg);
+    
+    ////////////////////////////////////////////
+    /////////// Initiate legend ////////////////
+    ////////////////////////////////////////////
+        
+    var svg = d3.select("#chart3").append('svg')
+        .attr("width", w+300)
+        .attr("height", h)
+    
+    //Create the title for the legend
+    var text = svg.append("text")
+        .attr("class", "title")
+        .attr('transform', 'translate(90,0)') 
+        .attr("x", w - 70)
+        .attr("y", 10)
+        .attr("font-size", "12px")
+        .attr("fill", "#404040")
+        .text("Players being compared");
+            
+    //Initiate Legend	
+    var legend = svg.append("g")
+        .attr("class", "legend")
+        .attr("height", 100)
+        .attr("width", 200)
+        .attr('transform', 'translate(90,20)') 
+        ;
+        //Create colour squares
+        legend.selectAll('rect')
+            .data(players)
+            .enter()
+            .append("rect")
+            .attr("x", w - 65)
+            .attr("y", function(d, i){ return i * 20;})
+            .attr("width", 10)
+            .attr("height", 10)
+            .style("fill", function(d, i){ return colorscale(i);})
+            ;
+        //Create text next to squares
+        legend.selectAll('text')
+            .data(players)
+            .enter()
+            .append("text")
+            .attr("x", w - 52)
+            .attr("y", function(d, i){ return i * 20 + 9;})
+            .attr("font-size", "11px")
+            .attr("fill", "#737373")
+            .text(function(d) { return d; })
+            ;	
 }
