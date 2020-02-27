@@ -7,6 +7,20 @@ function getRoundNo(round) {
             round == 'semi' ? 6 : 7
 }
 
+function getTopPlayers() {
+    // console.log(data[0])
+    let most_wins = d3.nest()
+        .key(function (d) {return d.winner })
+        .rollup(function (d) { return d.length })
+        .entries(data);
+
+    let sorted_data = most_wins.sort(function (d1, d2) {
+    return d2.value - d1.value
+    });
+
+    return sorted_data.slice(0, 10);
+}
+
 function constructPlayerAttributeComparisonData(player) {
     let player_data = getPlayerAttributes(player)
     let avg_stats = getAverageStats();
