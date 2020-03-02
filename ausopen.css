@@ -16,6 +16,10 @@ html {
     margin-top: 5%;
 }
 
+.main-stats {
+    display: flex;
+}
+
 .bar {
     fill: steelblue;
 }
