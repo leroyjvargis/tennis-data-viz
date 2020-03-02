@@ -1,3 +1,25 @@
+html {
+    background-color: #eee;
+    color: #111;
+    font-family: 'Roboto' ;
+}
+
+.main-chart {
+    margin: auto;
+    width: 50%;
+    margin-top: 10%;
+}
+
+.support-charts {
+    margin: auto;
+    width: 75%;
+    margin-top: 5%;
+}
+
+.main-stats {
+    display: flex;
+}
+
 .bar {
     fill: steelblue;
 }

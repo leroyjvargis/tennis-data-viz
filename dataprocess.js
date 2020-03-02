@@ -137,3 +137,16 @@ function getAverageStats() {
         net: Math.ceil( (d3.mean(data, function(d) { return d.net1; }) + d3.mean(data, function(d) { return d.net2; })) / 2),
     }
 }
+
+function getPlayerAttributesForRadarCompare(player) {
+    var player_data = getPlayerAttributes(player);
+    return [
+        {axis:'firstServe', value: d3.mean(player_data, function(d) { return d.firstServe; }) / 100 },
+        {axis:'firstPointWon', value: d3.mean(player_data, function(d) { return d.firstPointWon; }) / 100 },
+        {axis:'secPointWon', value: d3.mean(player_data, function(d) { return d.secPointWon; }) / 100 },
+        {axis:'break', value: d3.mean(player_data, function(d) { return d.break; }) / 100 },
+        {axis:'return', value: d3.mean(player_data, function(d) { return d.return; }) / 100 },
+        {axis:'net', value: d3.mean(player_data, function(d) { return d.net; }) / 100 },
+    ]
+
+}
