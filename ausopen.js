@@ -58,6 +58,9 @@ function barChart() {
     });
 
     svg.selectAll(".bar").on('click', function(d, i) {
+        d3.select("#main-chart").style("display", "none");
+        d3.select("#support-charts").style("display", "block");
+        d3.select("#player-name").text(d.key);
         showPlayerPerformanceByYear(d)
         showPlayerAttributes(d)
         compareplayers(d)

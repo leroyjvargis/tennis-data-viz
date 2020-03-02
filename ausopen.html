@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head> 
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet"> 
     <link rel="stylesheet" href="ausopen.css" />
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="RadarChart.js"></script>
@@ -9,13 +10,23 @@
   </head>
 
   <body>
-    <p>Hello!</p>
-    <div id="chart1"></div>
-    <div id="chart2"></div>
-    <div id="chart3"></div>
+    <div class="main-chart" id="main-chart">
+        <h2>Players with most wins at Australian Open from 2004 - 2014</h2>
+        <svg width="960" height="500"></svg>
+    </div>
 
-    <svg width="960" height="500"></svg>
+    <div class="support-charts" id="support-charts">
+        <h2>Stats for: <b id="player-name"></b></h2>
+        <div>
+            <div id="chart1"></div>
+            <div id="chart2"></div>
+        </div>        
+        <div id="chart3"></div>
+    </div>
+    
     <script>
+        // d3.select("#main-chart")
+        d3.select("#support-charts").style("display", "none");
         let data;
 
         d3.csv("data/10yearAUSOpenMatches.csv", function(d) {
