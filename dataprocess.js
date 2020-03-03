@@ -7,7 +7,7 @@ function getRoundNo(round) {
             round == 'semi' ? 6 : 7
 }
 
-function getTopPlayers() {
+function getTopPlayers(start=0, end=10) {
     // console.log(data[0])
     let most_wins = d3.nest()
         .key(function (d) {return d.winner })
@@ -18,7 +18,7 @@ function getTopPlayers() {
     return d2.value - d1.value
     });
 
-    return sorted_data.slice(0, 10);
+    return sorted_data.slice(start, end);
 }
 
 function constructPlayerAttributeComparisonData(player) {
@@ -148,5 +148,20 @@ function getPlayerAttributesForRadarCompare(player) {
         {axis:'return', value: d3.mean(player_data, function(d) { return d.return; }) / 100 },
         {axis:'net', value: d3.mean(player_data, function(d) { return d.net; }) / 100 },
     ]
+}
+
+function getInterestingStats() {
+    let interestingStats;
+
+    // 1. aces
+    // sum up aces of each player, sort, get max
+
+
+    // 2. fastest serve
+    max = d3.max(data, function (d) {return d.fastServe1 })
+    console.log(max)
+
+    // 3. total winners
+
 
 }

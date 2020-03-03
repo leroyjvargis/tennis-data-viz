@@ -1,5 +1,5 @@
-function barChart() {
-    let sliced_data = getTopPlayers()
+function barChart(start, end) {
+    let sliced_data = getTopPlayers(start, end)
     // console.log(sliced_data)
             
     var svg = d3.select("svg"),

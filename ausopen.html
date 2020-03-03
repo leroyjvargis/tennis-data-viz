@@ -13,6 +13,11 @@
     <div class="main-chart" id="main-chart">
         <h2>Players with most wins at Australian Open from 2004 - 2014</h2>
         <svg width="960" height="500"></svg>
+        <div>
+            <p id="pagination" style="float:left"></p>
+            <button style="float:right" type="button" onclick="changeMainChart(1)">></button>
+            <button style="float:right" type="button" onclick="changeMainChart(0)" id="dec-pag"><</button>
+        </div>
     </div>
 
     <div class="support-charts" id="support-charts">
@@ -27,7 +32,7 @@
     <script>
         // d3.select("#main-chart")
         d3.select("#support-charts").style("display", "none");
-        let data;
+        let data, start=0, end=10;
 
         d3.csv("data/10yearAUSOpenMatches.csv", function(d) {
             return {
@@ -76,7 +81,26 @@
         });
 
         function initCharts() {
-            barChart()
+            d3.select("#pagination").text("Showing results from " + (start + 1) + " to " + end);
+            d3.select("#dec-pag").attr("disabled", "true");
+            barChart(start, end)
+            // getInterestingStats()
+        }
+
+        function changeMainChart(direction) {            
+            d3.select("svg").html("");
+            if (direction == 0 && start != 0) {
+                start -= 10
+                end -= 10
+                if (start == 0) d3.select("#dec-pag").attr("disabled", "true");
+                barChart(start, end)
+            } else if (direction == 1 && end != data.length -10)  {
+                start += 10
+                end += 10
+                d3.select("#dec-pag").attr("disabled", null);
+                barChart(start, end)
+            }
+            d3.select("#pagination").text("Showing results from " + (start + 1) + " to " + end);
         }
       
     </script>
