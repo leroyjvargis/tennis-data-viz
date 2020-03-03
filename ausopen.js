@@ -1,3 +1,6 @@
+let allplayers;
+let selectedPlayer;
+
 function barChart(start, end) {
     let sliced_data = getTopPlayers(start, end)
     // console.log(sliced_data)
@@ -49,21 +52,31 @@ function barChart(start, end) {
     .attr("x", function (d) {
         return x(d.key);
     })
+    .attr("width", x.bandwidth());
+
+    g.selectAll("rect")
+    .transition()
+    .delay(function (d) {return Math.random()*1000;})
+    .duration(500)
     .attr("y", function (d) {
         return y(d.value);
     })
-    .attr("width", x.bandwidth())
     .attr("height", function (d) {
         return height - y(d.value);
     });
+    
 
     svg.selectAll(".bar").on('click', function(d, i) {
         d3.select("#main-chart").style("display", "none");
         d3.select("#support-charts").style("display", "block");
         d3.select("#player-name").text(d.key);
+        selectedPlayer = d;
         showPlayerPerformanceByYear(d)
         showPlayerAttributes(d)
-        compareplayers(d)
+        populatePlayerListForCompare()
+        // compareplayers(d)
+        d3.select("#select-other-player").on("change", comparePlayers); //attach listener
+        d3.select("#back-btn").on("click", ()=> { location.reload()} )
     });
 
 }
@@ -123,7 +136,7 @@ function showPlayerPerformanceByYear(player) {
         .enter().append("g")
     
     bars.append("rect")
-        .attr("class", "bar")
+        .attr("class", "bar2")
         .attr("height", y.bandwidth())
         .attr("y", function(d) { return y(d.key); })
         .attr("width", 0)
@@ -141,7 +154,7 @@ function showPlayerPerformanceByYear(player) {
         // .enter()
         .append("text")        
         .attr("y", function(d) {
-            return y(d.key) + y.bandwidth() / 2;
+            return y(d.key) + y.bandwidth() / 2 + 5;
         })
         .attr("x", 10)
         .text(function(d) {
@@ -277,15 +290,32 @@ function showPlayerAttributes(player) {
     legend.transition().duration(500).delay(function(d,i){ return 1300 + 100 * i; }).style("opacity","1");
 }
 
-function compareplayers(player) {
+function populatePlayerListForCompare() {
+    allplayers = getAllPlayerNames()
+    var select = document.getElementById("select-other-player"); 
 
-    var secondPlayer = {key: "Roger Federer", value: 5}
-    var players = [player.key, secondPlayer.key]
+    for(var i = 0; i < allplayers.length; i++) {
+        var opt = allplayers[i];
+        var el = document.createElement("option");
+        el.textContent = opt;
+        el.value = opt;
+        select.appendChild(el);
+    }
+}
+
+function comparePlayers() {
+    var sel = document.getElementById('select-other-player');
+    var otherPlayer = {key: sel.options[sel.selectedIndex].value }
+    d3.select("#chart3").html("");
+    makeRadarChartComparison(selectedPlayer, otherPlayer);
+}
+
+function makeRadarChartComparison(player1, player2) {
+    var players = [player1.key, player2.key]
 
     var d = [];
-    d.push(getPlayerAttributesForRadarCompare(player));
-    d.push(getPlayerAttributesForRadarCompare(secondPlayer));
-    console.log(d)
+    d.push(getPlayerAttributesForRadarCompare(player1));
+    d.push(getPlayerAttributesForRadarCompare(player2));
     
     var w = 500, h = 500;
     var colorscale = d3.scaleOrdinal(d3.schemeCategory10);
@@ -309,7 +339,7 @@ function compareplayers(player) {
         
     var svg = d3.select("#chart3").append('svg')
         .attr("width", w+300)
-        .attr("height", h)
+        .attr("height", 50)
     
     //Create the title for the legend
     var text = svg.append("text")

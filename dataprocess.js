@@ -29,37 +29,37 @@ function constructPlayerAttributeComparisonData(player) {
         {
             key: 'firstServe', values: [
                 { name: player.key, value: d3.mean(player_data, function(d) { return d.firstServe; }) },
-                { name: 'avg', value: avg_stats.firstServe}
+                { name: 'Average player', value: avg_stats.firstServe}
             ]
         },
         {
             key: 'firstPointWon', values: [
                 { name: player.key, value: d3.mean(player_data, function(d) { return d.firstPointWon; }) },
-                { name: 'avg', value: avg_stats.firstPointWon}
+                { name: 'Average player', value: avg_stats.firstPointWon}
             ]
         },
         {
             key: 'secPointWon', values: [
                 { name: player.key, value: d3.mean(player_data, function(d) { return d.secPointWon; }) },
-                { name: 'avg', value: avg_stats.secPointWon}
+                { name: 'Average player', value: avg_stats.secPointWon}
             ]
         },
         {
             key: 'break', values: [
                 { name: player.key, value: d3.mean(player_data, function(d) { return d.break; }) },
-                { name: 'avg', value: avg_stats.break}
+                { name: 'Average player', value: avg_stats.break}
             ]
         },
         {
             key: 'return', values: [
                 { name: player.key, value: d3.mean(player_data, function(d) { return d.return; }) },
-                { name: 'avg', value: avg_stats.return}
+                { name: 'Average player', value: avg_stats.return}
             ]
         },
         {
             key: 'net', values: [
                 { name: player.key, value: d3.mean(player_data, function(d) { return d.net; }) },
-                { name: 'avg', value: avg_stats.net}
+                { name: 'Average player', value: avg_stats.net}
             ]
         }
     ]
@@ -164,4 +164,8 @@ function getInterestingStats() {
     // 3. total winners
 
 
+}
+
+function getAllPlayerNames() {
+    return d3.map(data, function(d){return(d.winner)}).keys()
 }

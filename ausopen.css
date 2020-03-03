@@ -13,17 +13,39 @@ html {
 .support-charts {
     margin: auto;
     width: 75%;
-    margin-top: 5%;
+    margin-top: 3%;
 }
 
 .main-stats {
     display: flex;
 }
 
+#player-compare {
+    margin-top: 3%;
+}
+
+#chart1 {
+    margin-left: 10%;
+}
+
 .bar {
-    fill: steelblue;
+    fill: #1abc9c
 }
 
 .bar:hover {
-    fill: brown;
+    fill: #16a085;
+    cursor: pointer;
+}
+
+.bar2 {
+    fill: #f39c12;
+}
+
+.back-btn {
+    color: #bdc3c7;
+}
+
+.back-btn:hover {
+    cursor: pointer;
+    color: #95a5a6;
 }

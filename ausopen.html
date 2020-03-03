@@ -21,12 +21,27 @@
     </div>
 
     <div class="support-charts" id="support-charts">
+        <div class="back-btn" id="back-btn"><h1>< Back</h1></div>
         <h2>Stats for: <b id="player-name"></b></h2>
         <div class="main-stats">
-            <div id="chart2"></div>
-            <div id="chart1"></div>
-        </div>        
-        <div id="chart3"></div>
+            <div id="chart2">
+                <p>Comparison of stats vs average player</p>
+            </div>
+            <div id="chart1">
+                <p>Performance in Australian Open per year</p>
+            </div>
+        </div>
+        <div class="secondary-stats">
+            <div id="player-compare">
+                <p style="float:left">Compare with </p>
+                <select id="select-other-player" style="margin:15px">
+                    <option disabled selected>Select player...</option>
+                </select>
+                <div id="chart3"></div>
+            </div>
+        </div>
+        
+        
     </div>
     
     <script>
