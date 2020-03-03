@@ -55,3 +55,22 @@ html {
     cursor: pointer;
     color: #95a5a6;
 }
+
+footer {
+    background-color: #111;
+    text-align: center;
+    padding: 20px;
+}
+
+footer > a {
+    color: #eee;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+.writeup {
+    margin: auto;
+    width: 50%;
+    margin-top: 7%;   
+}
