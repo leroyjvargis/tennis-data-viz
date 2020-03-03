@@ -4,6 +4,7 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet"> 
     <link rel="stylesheet" href="ausopen.css" />
     <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://d3js.org/d3-array.v2.min.js"></script>
     <script src="RadarChart.js"></script>
     <script src="dataprocess.js"></script>
     <script src="ausopen.js"></script>
@@ -19,6 +20,10 @@
             <button style="float:right" type="button" onclick="changeMainChart(1)">></button>
             <button style="float:right" type="button" onclick="changeMainChart(0)" id="dec-pag"><</button>
         </div>
+    </div>
+    <div id="misc-stats">
+        <h4>Some interesting stats:</h4>
+        <ol id="interesting-stats"></ol>
     </div>
 
     <div class="support-charts" id="support-charts">
@@ -100,7 +105,7 @@
             d3.select("#pagination").text("Showing results from " + (start + 1) + " to " + end);
             d3.select("#dec-pag").attr("disabled", "true");
             barChart(start, end)
-            // getInterestingStats()
+            writeInterestingStats()
         }
 
         function changeMainChart(direction) {            

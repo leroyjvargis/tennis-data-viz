@@ -151,18 +151,51 @@ function getPlayerAttributesForRadarCompare(player) {
 }
 
 function getInterestingStats() {
-    let interestingStats;
+    let interestingStats = [];
+    let obj = {}, obj2;
 
-    // 1. aces
+    // 1. aces and winners
     // sum up aces of each player, sort, get max
+    // same for winners
+    var players = getAllPlayerNames();
+    
+    var totalAce = 0, winners = 0
+    players.forEach(element => {
+        var playerdata = getPlayerAttributes({key: element});
+        var totalAcesOfPlayer = d3.sum(playerdata, d => d.ace);
+        var totalWinnersOfPlayer = d3.sum(playerdata, d => d.winner);
+        if (totalAcesOfPlayer > totalAce) {
+            obj = {
+                'player': playerdata[0].player,
+                'stat': 'Most aces with ' + totalAcesOfPlayer + ' in total'
+            }
+            totalAce = totalAcesOfPlayer;
+        }
+
+        if (totalWinnersOfPlayer > winners) {
+            obj2 = {
+                'player': playerdata[0].player,
+                'stat': 'Most winners with ' + totalWinnersOfPlayer + ' in total'
+            }
+            winners = totalWinnersOfPlayer;
+        }
+
+    });
+    interestingStats.push(obj)
+    interestingStats.push(obj2)
 
 
     // 2. fastest serve
-    max = d3.max(data, function (d) {return d.fastServe1 })
-    console.log(max)
-
-    // 3. total winners
-
+    const fastest = data[d3.maxIndex(data, d => Math.max(d.fastServe1, d.fastServe2))]
+    const fastestServePlayer = fastest.fastServe1 > fastest.fastServe2 ? fastest.player1 : fastest.player2;
+    const fastestServe = fastest.fastServe1 > fastest.fastServe2 ? fastest.fastServe1 : fastest.fastServe2;
+    obj = {
+        'player': fastestServePlayer,
+        'stat': 'Fastest serve at ' + fastestServe + ' kmph'
+    }
+    interestingStats.push(obj)
+    
+    return interestingStats;
 
 }
 

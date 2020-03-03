@@ -69,6 +69,7 @@ function barChart(start, end) {
 
     svg.selectAll(".bar").on('click', function(d, i) {
         d3.select("#main-chart").style("display", "none");
+        d3.select("#misc-stats").style("display", "none");
         d3.select("#support-charts").style("display", "block");
         d3.select("#player-name").text(d.key);
         selectedPlayer = d;
@@ -79,6 +80,18 @@ function barChart(start, end) {
         d3.select("#back-btn").on("click", ()=> { location.reload()} )
     });
 
+}
+
+function writeInterestingStats() {
+    var interestingStats = getInterestingStats()
+    var interesting_list = document.getElementById("interesting-stats"); 
+
+    for(var i = 0; i < interestingStats.length; i++) {
+        var stat = interestingStats[i];
+        var el = document.createElement("li");
+        el.textContent = stat.player + ': ' + stat.stat;
+        interesting_list.appendChild(el);
+    }
 }
 
 // player performance horizontal bar chart

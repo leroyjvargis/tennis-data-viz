@@ -20,6 +20,12 @@ html {
     display: flex;
 }
 
+#misc-stats{
+    margin: auto;
+    width: 50%;
+    margin-top: 5%;
+}
+
 #player-compare {
     margin-top: 3%;
 }
