@@ -1,6 +1,7 @@
 let allplayers;
 let selectedPlayer;
 
+// main bar chart sorted by most wins
 function barChart(start, end) {
     let sliced_data = getTopPlayers(start, end)
     // console.log(sliced_data)
@@ -74,13 +75,13 @@ function barChart(start, end) {
         showPlayerPerformanceByYear(d)
         showPlayerAttributes(d)
         populatePlayerListForCompare()
-        // compareplayers(d)
         d3.select("#select-other-player").on("change", comparePlayers); //attach listener
         d3.select("#back-btn").on("click", ()=> { location.reload()} )
     });
 
 }
 
+// player performance horizontal bar chart
 function showPlayerPerformanceByYear(player) {
     // console.log(player)
     
@@ -150,8 +151,6 @@ function showPlayerPerformanceByYear(player) {
         .append("text")
 
     bars
-        // .data(user_data_2)
-        // .enter()
         .append("text")        
         .attr("y", function(d) {
             return y(d.key) + y.bandwidth() / 2 + 5;
@@ -174,17 +173,13 @@ function showPlayerPerformanceByYear(player) {
             return x(d.value) + 10;
         });
 
-    // add the x Axis
-    // svg.append("g")
-    //     .attr("transform", "translate(0," + height + ")")
-    //     .call(d3.axisBottom(x));
-
     // add the y Axis
     svg.append("g")
         .call(d3.axisLeft(y));
 
 }
 
+// player stats against average grouped bar chart
 function showPlayerAttributes(player) {
     var groupData = constructPlayerAttributeComparisonData(player);
 
@@ -204,14 +199,13 @@ function showPlayerAttributes(player) {
     const color = d3.scaleOrdinal(d3.schemeCategory10);
 
     var svg = d3.select("#chart2").append("svg")
-    // var svg = d3.select("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     var categoriesNames = groupData.map(function(d) { return d.key; });
-    var rateNames       = groupData[0].values.map(function(d) { return d.name; });
+    var rateNames = groupData[0].values.map(function(d) { return d.name; });
 
     x0.domain(categoriesNames);
     x1.domain(rateNames).rangeRound([0, x0.bandwidth() / 1.1]);
@@ -290,6 +284,7 @@ function showPlayerAttributes(player) {
     legend.transition().duration(500).delay(function(d,i){ return 1300 + 100 * i; }).style("opacity","1");
 }
 
+// populate the player list drop down list, on player profile page load
 function populatePlayerListForCompare() {
     allplayers = getAllPlayerNames()
     var select = document.getElementById("select-other-player"); 
@@ -303,6 +298,7 @@ function populatePlayerListForCompare() {
     }
 }
 
+// callback to compare players, called whenever drop down list is changed
 function comparePlayers() {
     var sel = document.getElementById('select-other-player');
     var otherPlayer = {key: sel.options[sel.selectedIndex].value }
@@ -310,6 +306,8 @@ function comparePlayers() {
     makeRadarChartComparison(selectedPlayer, otherPlayer);
 }
 
+// plot radar chart to compare two players
+// code to actually plot is by Nadieh Bremer. 
 function makeRadarChartComparison(player1, player2) {
     var players = [player1.key, player2.key]
 
@@ -329,14 +327,9 @@ function makeRadarChartComparison(player1, player2) {
         ExtraWidthX: 300
     }
     
-    //Call function to draw the Radar chart
-    //Will expect that data is in %'s
     RadarChart.draw("#chart3", d, mycfg);
     
-    ////////////////////////////////////////////
-    /////////// Initiate legend ////////////////
-    ////////////////////////////////////////////
-        
+    // legend
     var svg = d3.select("#chart3").append('svg')
         .attr("width", w+300)
         .attr("height", 50)
